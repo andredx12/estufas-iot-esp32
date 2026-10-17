@@ -1,0 +1,1629 @@
+[
+    {
+        "id": "58bba0827de9fc02",
+        "type": "tab",
+        "label": "Estufas do Sr. João",
+        "disabled": false,
+        "info": "Painel das estufas de alface e repolho. Recebe a telemetria dos ESP32 pelo MQTT (HiveMQ) e manda os comandos dos botões."
+    },
+    {
+        "id": "5687a1ec7ee9b8c9",
+        "type": "mqtt-broker",
+        "name": "HiveMQ público",
+        "broker": "broker.hivemq.com",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "0e0a98d947682be3",
+        "type": "ui-base",
+        "name": "Estufas do Sr. João",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-notification",
+            "ui-control"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "dashboard",
+        "navigationStyle": "none",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 1,
+        "showDisconnectNotification": true,
+        "allowInstall": false
+    },
+    {
+        "id": "5baf92bc0a3dc563",
+        "type": "ui-theme",
+        "name": "Tema das estufas",
+        "colors": {
+            "surface": "#2e7d32",
+            "primary": "#2e7d32",
+            "bgPage": "#f3f6f3",
+            "groupBg": "#ffffff",
+            "groupOutline": "#d5dfd5"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "6px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "0984e23c7add2199",
+        "type": "ui-page",
+        "name": "Estufas",
+        "ui": "0e0a98d947682be3",
+        "path": "/estufas",
+        "icon": "sprout",
+        "layout": "grid",
+        "theme": "5baf92bc0a3dc563",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "dd89e68cb494d8fb",
+        "type": "ui-group",
+        "name": "Estufa de alface",
+        "page": "0984e23c7add2199",
+        "width": "6",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "abd9a46ec302e0aa",
+        "type": "comment",
+        "z": "58bba0827de9fc02",
+        "name": "Estufa de alface",
+        "info": "Dados e comandos do ESP32 da estufa de alface (simulado no Wokwi).",
+        "x": 130,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "3798a1885864967e",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 1,
+        "x": 800,
+        "y": 80,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "ESP32",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "a8a6d912f2e32948",
+        "type": "function",
+        "z": "58bba0827de9fc02",
+        "name": "Status do ESP32",
+        "func": "// Mostrar se o ESP32 da estufa está conectado ao broker\nmsg.payload = msg.payload === 'online' ? 'conectado' : 'desconectado';\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 80,
+        "wires": [
+            [
+                "3798a1885864967e"
+            ]
+        ]
+    },
+    {
+        "id": "87d967de9ad86949",
+        "type": "mqtt in",
+        "z": "58bba0827de9fc02",
+        "name": "",
+        "topic": "umc/estufas-ack/alface/status",
+        "qos": "0",
+        "datatype": "utf8",
+        "broker": "5687a1ec7ee9b8c9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 80,
+        "wires": [
+            [
+                "a8a6d912f2e32948"
+            ]
+        ]
+    },
+    {
+        "id": "20d199eedbffc656",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 2,
+        "x": 800,
+        "y": 120,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Última leitura",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "e9d4d95078d9d9b6",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 3,
+        "x": 800,
+        "y": 160,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Liga a ventilação acima de",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "00ee2fc706bcf6aa",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 4,
+        "x": 800,
+        "y": 200,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Liga a irrigação abaixo de",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "f97206523aee7a49",
+        "type": "ui-gauge",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 5,
+        "x": 800,
+        "y": 240,
+        "name": "",
+        "width": "3",
+        "height": "3",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Temperatura",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "24",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "29",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 50,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "fcf9bc1ce3bf41ec",
+        "type": "ui-gauge",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 6,
+        "x": 800,
+        "y": 280,
+        "name": "",
+        "width": "3",
+        "height": "3",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Umidade do ar",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#9ccbf0",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "40",
+                "color": "#53b4fd",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "70",
+                "color": "#2397d1",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "268251c93df7de2f",
+        "type": "ui-gauge",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 7,
+        "x": 800,
+        "y": 320,
+        "name": "",
+        "width": "3",
+        "height": "3",
+        "gtype": "gauge-tank",
+        "gstyle": "needle",
+        "title": "Umidade do solo",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "45",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "60",
+                "color": "#53b4fd",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "5eeaacfd31e970c5",
+        "type": "ui-gauge",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 8,
+        "x": 800,
+        "y": 360,
+        "name": "",
+        "width": "3",
+        "height": "3",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Luminosidade",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "mil lux",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5c6bc0",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "5",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "cff2ec56e5884ecc",
+        "type": "ui-chart",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 9,
+        "x": 800,
+        "y": 400,
+        "name": "",
+        "label": "Temperatura e umidade do solo",
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "100",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 2,
+        "showLegend": true,
+        "removeOlder": "10",
+        "removeOlderUnit": "60",
+        "removeOlderPoints": "",
+        "colors": [
+            "#e4572e",
+            "#0095ff",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "6",
+        "height": "5",
+        "className": "",
+        "interpolation": "linear",
+        "wires": []
+    },
+    {
+        "id": "7464dd6db650c163",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 10,
+        "x": 800,
+        "y": 440,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Irrigação (bomba)",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "4aeb15a39c27cc92",
+        "type": "ui-button-group",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 11,
+        "x": 800,
+        "y": 480,
+        "name": "Comando irrigacao",
+        "width": "6",
+        "height": "1",
+        "label": "",
+        "className": "",
+        "rounded": true,
+        "useThemeColors": true,
+        "passthru": false,
+        "options": [
+            {
+                "label": "Automático",
+                "icon": "",
+                "value": "AUTO",
+                "valueType": "str",
+                "color": ""
+            },
+            {
+                "label": "Ligar",
+                "icon": "",
+                "value": "LIGAR",
+                "valueType": "str",
+                "color": ""
+            },
+            {
+                "label": "Desligar",
+                "icon": "",
+                "value": "DESLIGAR",
+                "valueType": "str",
+                "color": ""
+            }
+        ],
+        "topic": "umc/estufas-ack/alface/comando/irrigacao",
+        "topicType": "str",
+        "wires": [
+            [
+                "03bf9e4ab07e1af4"
+            ]
+        ]
+    },
+    {
+        "id": "23fac9e70423e27d",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 12,
+        "x": 800,
+        "y": 520,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Ventilação (exaustor)",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "fcb5535941e9da34",
+        "type": "ui-button-group",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 13,
+        "x": 800,
+        "y": 560,
+        "name": "Comando ventilacao",
+        "width": "6",
+        "height": "1",
+        "label": "",
+        "className": "",
+        "rounded": true,
+        "useThemeColors": true,
+        "passthru": false,
+        "options": [
+            {
+                "label": "Automático",
+                "icon": "",
+                "value": "AUTO",
+                "valueType": "str",
+                "color": ""
+            },
+            {
+                "label": "Ligar",
+                "icon": "",
+                "value": "LIGAR",
+                "valueType": "str",
+                "color": ""
+            },
+            {
+                "label": "Desligar",
+                "icon": "",
+                "value": "DESLIGAR",
+                "valueType": "str",
+                "color": ""
+            }
+        ],
+        "topic": "umc/estufas-ack/alface/comando/ventilacao",
+        "topicType": "str",
+        "wires": [
+            [
+                "03bf9e4ab07e1af4"
+            ]
+        ]
+    },
+    {
+        "id": "b15691e16afa002c",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 14,
+        "x": 800,
+        "y": 600,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Iluminação (lâmpada)",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "c5a984b159b5a391",
+        "type": "ui-button-group",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 15,
+        "x": 800,
+        "y": 640,
+        "name": "Comando iluminacao",
+        "width": "6",
+        "height": "1",
+        "label": "",
+        "className": "",
+        "rounded": true,
+        "useThemeColors": true,
+        "passthru": false,
+        "options": [
+            {
+                "label": "Automático",
+                "icon": "",
+                "value": "AUTO",
+                "valueType": "str",
+                "color": ""
+            },
+            {
+                "label": "Ligar",
+                "icon": "",
+                "value": "LIGAR",
+                "valueType": "str",
+                "color": ""
+            },
+            {
+                "label": "Desligar",
+                "icon": "",
+                "value": "DESLIGAR",
+                "valueType": "str",
+                "color": ""
+            }
+        ],
+        "topic": "umc/estufas-ack/alface/comando/iluminacao",
+        "topicType": "str",
+        "wires": [
+            [
+                "03bf9e4ab07e1af4"
+            ]
+        ]
+    },
+    {
+        "id": "33a8d061bbbb8595",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "dd89e68cb494d8fb",
+        "order": 16,
+        "x": 800,
+        "y": 680,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Alerta",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "38c2e9144def10a5",
+        "type": "function",
+        "z": "58bba0827de9fc02",
+        "name": "Dados da estufa de alface",
+        "func": "// Separar a telemetria do ESP32 para cada item do painel\nconst d = msg.payload;\nif (typeof d !== 'object' || d === null) {\n    return null;\n}\n\nconst hora = new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });\n\n// Estado de cada equipamento em texto\nfunction estado(ligado, modo) {\n    const texto = ligado ? 'LIGADA' : 'DESLIGADA';\n    return texto + (modo === 'auto' ? ' (automático)' : ' (manual)');\n}\n\n// Modo atual do ESP32 no formato dos botões\nconst botao = { auto: 'AUTO', ligado: 'LIGAR', desligado: 'DESLIGAR' };\n\nreturn [\n    { payload: hora },\n    { payload: d.limite_temp + ' °C' },\n    { payload: d.limite_solo + ' %' },\n    { payload: d.temperatura },\n    { payload: d.umidade_ar },\n    { payload: d.umidade_solo },\n    { payload: Math.round(d.luminosidade / 100) / 10 },\n    [\n        { topic: 'Temperatura (°C)', payload: d.temperatura },\n        { topic: 'Umidade do solo (%)', payload: d.umidade_solo }\n    ],\n    { payload: estado(d.irrigacao, d.modo_irrigacao) },\n    { payload: botao[d.modo_irrigacao] },\n    { payload: estado(d.ventilacao, d.modo_ventilacao) },\n    { payload: botao[d.modo_ventilacao] },\n    { payload: estado(d.iluminacao, d.modo_iluminacao) },\n    { payload: botao[d.modo_iluminacao] },\n    { payload: d.alerta ? 'CONDIÇÃO CRÍTICA (buzzer ligado)' : 'nenhum' }\n];\n",
+        "outputs": 15,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 360,
+        "wires": [
+            [
+                "20d199eedbffc656"
+            ],
+            [
+                "e9d4d95078d9d9b6"
+            ],
+            [
+                "00ee2fc706bcf6aa"
+            ],
+            [
+                "f97206523aee7a49"
+            ],
+            [
+                "fcf9bc1ce3bf41ec"
+            ],
+            [
+                "268251c93df7de2f"
+            ],
+            [
+                "5eeaacfd31e970c5"
+            ],
+            [
+                "cff2ec56e5884ecc"
+            ],
+            [
+                "7464dd6db650c163"
+            ],
+            [
+                "4aeb15a39c27cc92"
+            ],
+            [
+                "23fac9e70423e27d"
+            ],
+            [
+                "fcb5535941e9da34"
+            ],
+            [
+                "b15691e16afa002c"
+            ],
+            [
+                "c5a984b159b5a391"
+            ],
+            [
+                "33a8d061bbbb8595"
+            ]
+        ]
+    },
+    {
+        "id": "5b35b8ded977bd9e",
+        "type": "mqtt in",
+        "z": "58bba0827de9fc02",
+        "name": "",
+        "topic": "umc/estufas-ack/alface/telemetria",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "5687a1ec7ee9b8c9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 360,
+        "wires": [
+            [
+                "38c2e9144def10a5"
+            ]
+        ]
+    },
+    {
+        "id": "1b8434d0824dd1b1",
+        "type": "ui-group",
+        "name": "Estufa de repolho",
+        "page": "0984e23c7add2199",
+        "width": "6",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "299e9e04b02abcb7",
+        "type": "comment",
+        "z": "58bba0827de9fc02",
+        "name": "Estufa de repolho",
+        "info": "Dados e comandos do ESP32 da estufa de repolho (simulado no Wokwi).",
+        "x": 130,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "7363e767b0713ec1",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 1,
+        "x": 800,
+        "y": 760,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "ESP32",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "fc8adbb2118f9c5d",
+        "type": "function",
+        "z": "58bba0827de9fc02",
+        "name": "Status do ESP32",
+        "func": "// Mostrar se o ESP32 da estufa está conectado ao broker\nmsg.payload = msg.payload === 'online' ? 'conectado' : 'desconectado';\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 760,
+        "wires": [
+            [
+                "7363e767b0713ec1"
+            ]
+        ]
+    },
+    {
+        "id": "7929377bdecb054c",
+        "type": "mqtt in",
+        "z": "58bba0827de9fc02",
+        "name": "",
+        "topic": "umc/estufas-ack/repolho/status",
+        "qos": "0",
+        "datatype": "utf8",
+        "broker": "5687a1ec7ee9b8c9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 180,
+        "y": 760,
+        "wires": [
+            [
+                "fc8adbb2118f9c5d"
+            ]
+        ]
+    },
+    {
+        "id": "57518d59578dfab7",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 2,
+        "x": 800,
+        "y": 800,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Última leitura",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "49da3bc95d79014c",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 3,
+        "x": 800,
+        "y": 840,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Liga a ventilação acima de",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "7699c36351fdaf35",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 4,
+        "x": 800,
+        "y": 880,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Liga a irrigação abaixo de",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "38989390dfe1f886",
+        "type": "ui-gauge",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 5,
+        "x": 800,
+        "y": 920,
+        "name": "",
+        "width": "3",
+        "height": "3",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Temperatura",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "°C",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5cd65c",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "20",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "25",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 50,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "b8f1749ccee05e53",
+        "type": "ui-gauge",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 6,
+        "x": 800,
+        "y": 960,
+        "name": "",
+        "width": "3",
+        "height": "3",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Umidade do ar",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#9ccbf0",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "40",
+                "color": "#53b4fd",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "70",
+                "color": "#2397d1",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "0c33da4838047c10",
+        "type": "ui-gauge",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 7,
+        "x": 800,
+        "y": 1000,
+        "name": "",
+        "width": "3",
+        "height": "3",
+        "gtype": "gauge-tank",
+        "gstyle": "needle",
+        "title": "Umidade do solo",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "%",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#ea5353",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "55",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "70",
+                "color": "#53b4fd",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "8a5a8a3f1e0f0b53",
+        "type": "ui-gauge",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 8,
+        "x": 800,
+        "y": 1040,
+        "name": "",
+        "width": "3",
+        "height": "3",
+        "gtype": "gauge-34",
+        "gstyle": "needle",
+        "title": "Luminosidade",
+        "alwaysShowTitle": false,
+        "floatingTitlePosition": "top-left",
+        "units": "mil lux",
+        "icon": "",
+        "prefix": "",
+        "suffix": "",
+        "segments": [
+            {
+                "from": "0",
+                "color": "#5c6bc0",
+                "text": "",
+                "textType": "label"
+            },
+            {
+                "from": "5",
+                "color": "#ffc800",
+                "text": "",
+                "textType": "label"
+            }
+        ],
+        "min": 0,
+        "max": 100,
+        "sizeThickness": 16,
+        "sizeGap": 4,
+        "sizeKeyThickness": 8,
+        "styleRounded": true,
+        "styleGlow": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "07f8ac2d3aec2acb",
+        "type": "ui-chart",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 9,
+        "x": 800,
+        "y": 1080,
+        "name": "",
+        "label": "Temperatura e umidade do solo",
+        "chartType": "line",
+        "category": "topic",
+        "categoryType": "msg",
+        "xAxisLabel": "",
+        "xAxisProperty": "",
+        "xAxisPropertyType": "timestamp",
+        "xAxisType": "time",
+        "xAxisFormat": "",
+        "xAxisFormatType": "auto",
+        "xmin": "",
+        "xmax": "",
+        "yAxisLabel": "",
+        "yAxisProperty": "payload",
+        "yAxisPropertyType": "msg",
+        "ymin": "0",
+        "ymax": "100",
+        "bins": 10,
+        "action": "append",
+        "stackSeries": false,
+        "pointShape": "circle",
+        "pointRadius": 2,
+        "showLegend": true,
+        "removeOlder": "10",
+        "removeOlderUnit": "60",
+        "removeOlderPoints": "",
+        "colors": [
+            "#e4572e",
+            "#0095ff",
+            "#ff7f0e",
+            "#2ca02c",
+            "#a347e1",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "textColor": [
+            "#666666"
+        ],
+        "textColorDefault": true,
+        "gridColor": [
+            "#e5e5e5"
+        ],
+        "gridColorDefault": true,
+        "width": "6",
+        "height": "5",
+        "className": "",
+        "interpolation": "linear",
+        "wires": []
+    },
+    {
+        "id": "804aa8e59ef009dc",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 10,
+        "x": 800,
+        "y": 1120,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Irrigação (bomba)",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "6703e2973ea134d1",
+        "type": "ui-button-group",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 11,
+        "x": 800,
+        "y": 1160,
+        "name": "Comando irrigacao",
+        "width": "6",
+        "height": "1",
+        "label": "",
+        "className": "",
+        "rounded": true,
+        "useThemeColors": true,
+        "passthru": false,
+        "options": [
+            {
+                "label": "Automático",
+                "icon": "",
+                "value": "AUTO",
+                "valueType": "str",
+                "color": ""
+            },
+            {
+                "label": "Ligar",
+                "icon": "",
+                "value": "LIGAR",
+                "valueType": "str",
+                "color": ""
+            },
+            {
+                "label": "Desligar",
+                "icon": "",
+                "value": "DESLIGAR",
+                "valueType": "str",
+                "color": ""
+            }
+        ],
+        "topic": "umc/estufas-ack/repolho/comando/irrigacao",
+        "topicType": "str",
+        "wires": [
+            [
+                "03bf9e4ab07e1af4"
+            ]
+        ]
+    },
+    {
+        "id": "f2fd30a0dec82406",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 12,
+        "x": 800,
+        "y": 1200,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Ventilação (exaustor)",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "5a64eec42de3bd75",
+        "type": "ui-button-group",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 13,
+        "x": 800,
+        "y": 1240,
+        "name": "Comando ventilacao",
+        "width": "6",
+        "height": "1",
+        "label": "",
+        "className": "",
+        "rounded": true,
+        "useThemeColors": true,
+        "passthru": false,
+        "options": [
+            {
+                "label": "Automático",
+                "icon": "",
+                "value": "AUTO",
+                "valueType": "str",
+                "color": ""
+            },
+            {
+                "label": "Ligar",
+                "icon": "",
+                "value": "LIGAR",
+                "valueType": "str",
+                "color": ""
+            },
+            {
+                "label": "Desligar",
+                "icon": "",
+                "value": "DESLIGAR",
+                "valueType": "str",
+                "color": ""
+            }
+        ],
+        "topic": "umc/estufas-ack/repolho/comando/ventilacao",
+        "topicType": "str",
+        "wires": [
+            [
+                "03bf9e4ab07e1af4"
+            ]
+        ]
+    },
+    {
+        "id": "f16b7c06dbec00a6",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 14,
+        "x": 800,
+        "y": 1280,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Iluminação (lâmpada)",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "fa705ffa4d4f7369",
+        "type": "ui-button-group",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 15,
+        "x": 800,
+        "y": 1320,
+        "name": "Comando iluminacao",
+        "width": "6",
+        "height": "1",
+        "label": "",
+        "className": "",
+        "rounded": true,
+        "useThemeColors": true,
+        "passthru": false,
+        "options": [
+            {
+                "label": "Automático",
+                "icon": "",
+                "value": "AUTO",
+                "valueType": "str",
+                "color": ""
+            },
+            {
+                "label": "Ligar",
+                "icon": "",
+                "value": "LIGAR",
+                "valueType": "str",
+                "color": ""
+            },
+            {
+                "label": "Desligar",
+                "icon": "",
+                "value": "DESLIGAR",
+                "valueType": "str",
+                "color": ""
+            }
+        ],
+        "topic": "umc/estufas-ack/repolho/comando/iluminacao",
+        "topicType": "str",
+        "wires": [
+            [
+                "03bf9e4ab07e1af4"
+            ]
+        ]
+    },
+    {
+        "id": "43d2def248bbedeb",
+        "type": "ui-text",
+        "z": "58bba0827de9fc02",
+        "group": "1b8434d0824dd1b1",
+        "order": 16,
+        "x": 800,
+        "y": 1360,
+        "width": "6",
+        "height": "1",
+        "name": "",
+        "label": "Alerta",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#717171",
+        "wrapText": false,
+        "className": "",
+        "value": "payload",
+        "valueType": "msg",
+        "wires": []
+    },
+    {
+        "id": "52d54a9c8f5ea62f",
+        "type": "function",
+        "z": "58bba0827de9fc02",
+        "name": "Dados da estufa de repolho",
+        "func": "// Separar a telemetria do ESP32 para cada item do painel\nconst d = msg.payload;\nif (typeof d !== 'object' || d === null) {\n    return null;\n}\n\nconst hora = new Date().toLocaleTimeString('pt-BR', { timeZone: 'America/Sao_Paulo' });\n\n// Estado de cada equipamento em texto\nfunction estado(ligado, modo) {\n    const texto = ligado ? 'LIGADA' : 'DESLIGADA';\n    return texto + (modo === 'auto' ? ' (automático)' : ' (manual)');\n}\n\n// Modo atual do ESP32 no formato dos botões\nconst botao = { auto: 'AUTO', ligado: 'LIGAR', desligado: 'DESLIGAR' };\n\nreturn [\n    { payload: hora },\n    { payload: d.limite_temp + ' °C' },\n    { payload: d.limite_solo + ' %' },\n    { payload: d.temperatura },\n    { payload: d.umidade_ar },\n    { payload: d.umidade_solo },\n    { payload: Math.round(d.luminosidade / 100) / 10 },\n    [\n        { topic: 'Temperatura (°C)', payload: d.temperatura },\n        { topic: 'Umidade do solo (%)', payload: d.umidade_solo }\n    ],\n    { payload: estado(d.irrigacao, d.modo_irrigacao) },\n    { payload: botao[d.modo_irrigacao] },\n    { payload: estado(d.ventilacao, d.modo_ventilacao) },\n    { payload: botao[d.modo_ventilacao] },\n    { payload: estado(d.iluminacao, d.modo_iluminacao) },\n    { payload: botao[d.modo_iluminacao] },\n    { payload: d.alerta ? 'CONDIÇÃO CRÍTICA (buzzer ligado)' : 'nenhum' }\n];\n",
+        "outputs": 15,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 1040,
+        "wires": [
+            [
+                "57518d59578dfab7"
+            ],
+            [
+                "49da3bc95d79014c"
+            ],
+            [
+                "7699c36351fdaf35"
+            ],
+            [
+                "38989390dfe1f886"
+            ],
+            [
+                "b8f1749ccee05e53"
+            ],
+            [
+                "0c33da4838047c10"
+            ],
+            [
+                "8a5a8a3f1e0f0b53"
+            ],
+            [
+                "07f8ac2d3aec2acb"
+            ],
+            [
+                "804aa8e59ef009dc"
+            ],
+            [
+                "6703e2973ea134d1"
+            ],
+            [
+                "f2fd30a0dec82406"
+            ],
+            [
+                "5a64eec42de3bd75"
+            ],
+            [
+                "f16b7c06dbec00a6"
+            ],
+            [
+                "fa705ffa4d4f7369"
+            ],
+            [
+                "43d2def248bbedeb"
+            ]
+        ]
+    },
+    {
+        "id": "fd0a9f5bcd324f35",
+        "type": "mqtt in",
+        "z": "58bba0827de9fc02",
+        "name": "",
+        "topic": "umc/estufas-ack/repolho/telemetria",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "5687a1ec7ee9b8c9",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 1040,
+        "wires": [
+            [
+                "52d54a9c8f5ea62f"
+            ]
+        ]
+    },
+    {
+        "id": "03bf9e4ab07e1af4",
+        "type": "mqtt out",
+        "z": "58bba0827de9fc02",
+        "name": "Comandos para os ESP32",
+        "topic": "",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "5687a1ec7ee9b8c9",
+        "x": 1170,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "a44169e03761ff64",
+        "type": "comment",
+        "z": "58bba0827de9fc02",
+        "name": "Botões publicam em umc/estufas-ack/<estufa>/comando/<equipamento>",
+        "info": "Valores enviados: AUTO, LIGAR ou DESLIGAR.",
+        "x": 1170,
+        "y": 700,
+        "wires": []
+    }
+]

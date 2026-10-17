@@ -328,7 +328,7 @@
       "top": -280.0,
       "left": 0.0,
       "attrs": {
-        "text": "Estufas do Sr. João: controlador ESP32 (Etapa 3)",
+        "text": "Estufas do Sr. João: controlador ESP32 com Wi-Fi e MQTT (Etapa 4)",
         "fontSize": "16"
       }
     },
